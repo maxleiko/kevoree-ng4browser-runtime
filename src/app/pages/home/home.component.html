@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <form>
+    <div class="form-group">
+      <label for="nodeName">Node name</label>
+      <input
+        id="nodeName"
+        type="text"
+        class="form-control"
+        name="nodeName"
+        [(ngModel)]="nodeName"
+        placeholder="eg. node0, myNode">
+    </div>
+
+    <div class="form-group">
+      <label for="bootstrapScript">KevScript</label>
+      <app-kevscript
+        id="bootstrapScript"
+        [(script)]="bootstrapScript"
+        aria-describedby="bootstrapScriptHelp">
+      </app-kevscript>
+      <p id="bootstrapScriptHelp" class="form-text text-muted">
+        This KevScript will be given to the runtime in order to bootstrap it.
+      </p>
+    </div>
+
+    <div class="form-group">
+      <button type="button" class="btn btn-secondary" (click)="click()" (disabled)="!isClickable">{{ btn }}</button>
+    </div>
+  </form>
+</div>

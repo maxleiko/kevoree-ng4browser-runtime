@@ -1,0 +1,9 @@
+<div class="list-group">
+  <div
+    *ngFor="let log of logger.getLogs()"
+    class="list-group-item list-group-item-action list-group-item-{{convertLevel(log.level)}}">
+    <span class="date">{{ log.date | date:'dd/MM/yy HH:mm:ss' }}</span>
+    <span class="tag">{{ log.tag }}</span>
+    <span class="line">{{ log.line }}</span>
+  </div>
+</div>

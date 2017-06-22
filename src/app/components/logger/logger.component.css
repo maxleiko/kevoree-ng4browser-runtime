@@ -1,0 +1,25 @@
+.list-group-item {
+  padding: 2px 0;
+  border-radius: 0;
+}
+
+.list-group-item > * {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.date {
+  text-align: center;
+  padding: 0 10px;
+  border-right: 1px solid #666;
+}
+
+.tag {
+  padding: 0 10px;
+  width: 150px;
+  border-right: 1px solid #666;
+}
+
+.line {
+  padding: 0 10px;
+}
