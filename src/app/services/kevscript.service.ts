@@ -3,12 +3,6 @@ import { Injectable } from '@angular/core';
 import { LoggerService } from './logger.service';
 import KevScript from 'kevoree-kevscript';
 
-export interface InterpretCallback {
-  err: Error;
-  model: ContainerRoot;
-  warnings: any[];
-}
-
 @Injectable()
 export class KevScriptService {
 
@@ -20,11 +14,16 @@ export class KevScriptService {
     logger.debug('KevScriptService initiated');
   }
 
-  interpret(script: string, ctxModel?: ContainerRoot): Promise<InterpretCallback> {
+  interpret(script: string, ctxModel?: ContainerRoot): Promise<ContainerRoot> {
     this.logger.debug(`Interpreting script:\n${script}`);
-    return new Promise<InterpretCallback>((resolve) => {
+    return new Promise<ContainerRoot>((resolve, reject) => {
       this.kevs.parse(script, ctxModel ? ctxModel : null, (err, model, warnings) => {
-        resolve({ err, model, warnings });
+        if (err) {
+          this.logger.error('KevScript', err.stack);
+          reject(err);
+        } else {
+          resolve(model);
+        }
       });
     });
   }

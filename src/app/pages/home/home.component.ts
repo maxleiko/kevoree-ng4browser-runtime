@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { LoggerService } from '../../services/logger.service';
 import { KevoreeCoreService } from '../../services/kevoree-core.service';
-import { KevScriptService, InterpretCallback } from '../../services/kevscript.service';
+import { KevScriptService } from '../../services/kevscript.service';
 
 enum State {
   INIT = 0, STARTING = 1, STARTED = 2, STOPPING = 3, STOPPED = 4
@@ -57,8 +57,8 @@ bind ${this.name}.printer.input chan`;
           this.isClickable = true;
           return this.kevs.interpret(this.script);
         })
-        .then((res: InterpretCallback) => {
-          return this.core.deploy(res.model);
+        .then((model) => {
+          return this.core.deploy(model);
         })
         .then(() => {
           this.logger.info('Platform bootstrapped successfully :)');
