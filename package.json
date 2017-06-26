@@ -1,5 +1,5 @@
 {
-  "name": "ng4-kevoree-web-editor",
+  "name": "ng4-kevoree-runtime",
   "version": "1.0.0-alpha",
   "license": "LGPL-3.0",
   "scripts": {
