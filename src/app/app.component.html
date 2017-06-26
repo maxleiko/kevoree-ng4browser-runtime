@@ -4,6 +4,10 @@
 </div>
 <div class="logger-panel" [ngClass]="{ 'unfold': logsVisible }">
   <span class="logger-toggle" (click)="toggleLogs()">{{ logsVisible ? 'Hide':'Show' }} logs</span>
+  <div class="logger-actions">
+    <span class="logger-action" (click)="reverseLogs()">Reverse</span>
+    <span class="logger-action" (click)="clearLogs()">Clear</span>
+  </div>
   <div class="logger-container">
     <app-logger class="logger"></app-logger>
   </div>

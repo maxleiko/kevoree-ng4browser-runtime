@@ -5,21 +5,33 @@ import { KevoreeCoreService } from '../../services/kevoree-core.service';
 import { KevScriptService, InterpretCallback } from '../../services/kevscript.service';
 
 enum State {
-  INIT, STARTING, STARTED, STOPPING, STOPPED
+  INIT = 0, STARTING = 1, STARTED = 2, STOPPING = 3, STOPPED = 4
 };
 
 @Component({
-  templateUrl: './home.component.html',
+  templateUrl: './home.component.html'
 })
 export class HomeComponent {
-  private nodeName = 'node' + (Math.floor(Math.random() * 1000) + 1);
-  private bootstrapScript = `add ${this.nodeName}: JavascriptNode/LATEST/LATEST`;
-  private state = State.STOPPED;
-  private btn = 'Start';
-  private isClickable = true;
+  private name: string;
+  private script: string;
+  private state: State;
+  private btn: string;
+  private isClickable: boolean;
 
-  constructor(private logger: LoggerService, private kCore: KevoreeCoreService,
-              private kevs: KevScriptService) {}
+  constructor(private logger: LoggerService, private core: KevoreeCoreService,
+              private kevs: KevScriptService) {
+    this.name = 'node' + (Math.floor(Math.random() * 1000) + 1);
+    this.script = `add ${this.name}: JavascriptNode/LATEST/LATEST
+add ${this.name}.ticker: Ticker/LATEST/LATEST
+add ${this.name}.printer: ConsolePrinter/LATEST/LATEST
+add chan: LocalChannel/LATEST/LATEST
+
+bind ${this.name}.ticker.tick chan
+bind ${this.name}.printer.input chan`;
+    this.state = State.STOPPED;
+    this.btn = 'Start';
+    this.isClickable = true;
+  }
 
   click() {
     switch (this.state) {
@@ -38,18 +50,18 @@ export class HomeComponent {
       this.isClickable = false;
       this.state = State.STARTING;
       this.btn = 'Starting...';
-      this.kCore.start(this.nodeName)
+      this.core.start(this.name)
         .then(() => {
           this.state = State.STARTED;
           this.btn = 'Stop';
           this.isClickable = true;
-          return this.kevs.interpret(this.bootstrapScript);
+          return this.kevs.interpret(this.script);
         })
         .then((res: InterpretCallback) => {
-          return this.kCore.deploy(res.model);
+          return this.core.deploy(res.model);
         })
         .then(() => {
-          this.logger.info('Deployed!');
+          this.logger.info('Platform bootstrapped successfully :)');
         });
     }
   }
@@ -59,7 +71,7 @@ export class HomeComponent {
       this.isClickable = false;
       this.state = State.STOPPING;
       this.btn = 'Stopping...';
-      this.kCore.stop().then(() => {
+      this.core.stop().then(() => {
         this.state = State.STOPPED;
         this.btn = 'Start';
         this.isClickable = true;

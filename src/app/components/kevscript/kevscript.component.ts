@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-kevscript',
@@ -6,6 +6,18 @@ import { Component, Input } from '@angular/core';
 })
 export class KevScriptComponent {
 
+  private _script: string;
+
+  @Output()
+  protected scriptChanged: EventEmitter<string> = new EventEmitter<string>();
+
   @Input()
-  private script: string;
+  set script(val: string) {
+    this._script = val;
+    this.scriptChanged.emit(this._script);
+  }
+
+  get script(): string {
+    return this._script;
+  }
 }

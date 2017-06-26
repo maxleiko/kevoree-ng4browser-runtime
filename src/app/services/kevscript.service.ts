@@ -1,4 +1,4 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { LoggerService } from './logger.service';
 import KevScript from 'kevoree-kevscript';
@@ -23,7 +23,9 @@ export class KevScriptService {
   interpret(script: string, ctxModel?: ContainerRoot): Promise<InterpretCallback> {
     this.logger.debug(`Interpreting script:\n${script}`);
     return new Promise<InterpretCallback>((resolve) => {
-      this.kevs.parse(script, ctxModel, resolve);
+      this.kevs.parse(script, ctxModel ? ctxModel : null, (err, model, warnings) => {
+        resolve({ err, model, warnings });
+      });
     });
   }
 

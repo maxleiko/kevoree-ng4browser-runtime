@@ -1,0 +1,12 @@
+<div class="dashboard">
+  <div *ngFor="let tile of tiles" class="tile-container">
+    <div class="tile-header">
+      <span class="tile-name">{{ tile.name }} - {{ tile.type }}</span>
+    </div>
+    <iframe
+      id="tile-{{ tile.name }}"
+      [src]="tile.src | safe"
+      class="tile">
+    </iframe>
+  </div>
+</div>

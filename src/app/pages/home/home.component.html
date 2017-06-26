@@ -1,30 +1,35 @@
 <div class="container-fluid">
-  <form>
-    <div class="form-group">
-      <label for="nodeName">Node name</label>
-      <input
-        id="nodeName"
-        type="text"
-        class="form-control"
-        name="nodeName"
-        [(ngModel)]="nodeName"
-        placeholder="eg. node0, myNode">
-    </div>
+  <div class="row justify-content-md-center" *ngIf="state !== 2">
+    <div class="col-12 col-md-7">
+      <div class="form-group">
+        <label for="name">Node name</label>
+        <input
+          id="name"
+          type="text"
+          class="form-control"
+          name="name"
+          [(ngModel)]="name"
+          placeholder="eg. node0, myNode">
+      </div>
 
-    <div class="form-group">
-      <label for="bootstrapScript">KevScript</label>
-      <app-kevscript
-        id="bootstrapScript"
-        [(script)]="bootstrapScript"
-        aria-describedby="bootstrapScriptHelp">
-      </app-kevscript>
-      <p id="bootstrapScriptHelp" class="form-text text-muted">
-        This KevScript will be given to the runtime in order to bootstrap it.
-      </p>
-    </div>
+      <div class="form-group">
+        <label for="script">KevScript</label>
+        <app-kevscript
+          id="script"
+          [script]="script"
+          (scriptChanged)="script=$event"
+          aria-describedby="bootstrapScriptHelp">
+        </app-kevscript>
+        <p id="bootstrapScriptHelp" class="form-text text-muted">
+          This KevScript will be given to the runtime in order to bootstrap it.
+        </p>
+      </div>
 
-    <div class="form-group">
-      <button type="button" class="btn btn-secondary" (click)="click()" (disabled)="!isClickable">{{ btn }}</button>
+      <div class="form-group">
+        <button type="button" class="btn btn-secondary" (click)="click()" (disabled)="!isClickable">{{ btn }}</button>
+      </div>
     </div>
-  </form>
+  </div>
+
+  <app-dashboard></app-dashboard>
 </div>

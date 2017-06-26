@@ -10,3 +10,9 @@ interface ContainerRoot {
   hubs: any[];
   packages: any[];
 }
+interface DeployUnit {
+  name: string;
+  version: string;
+  hashcode: string;
+  filters: { array: any[] };
+}

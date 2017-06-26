@@ -19,4 +19,12 @@ export class AppComponent {
   toggleLogs(): void {
     this.logsVisible = !this.logsVisible;
   }
+
+  clearLogs(): void {
+    this.logger.clear();
+  }
+
+  reverseLogs(): void {
+    this.logger.reverseOrder();
+  }
 }

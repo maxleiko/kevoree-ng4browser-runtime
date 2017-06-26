@@ -1,0 +1,23 @@
+.tile-container {
+  background-color: #fff;
+  display: inline-block;
+  margin: 5px;
+  width: 300px;
+  height: 325px;
+  border: 1px solid #999;
+}
+
+.tile-container .tile-header {
+  padding: 2px 5px;
+  height: 25px;
+  line-height: 16px;
+  font-size: 16px;
+  border-bottom: 1px solid #fff;
+  background-color: #333;
+}
+
+.tile-container .tile {
+  border: none;
+  width: 300px;
+  height: 300px;
+}
