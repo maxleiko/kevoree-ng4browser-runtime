@@ -374,10 +374,11 @@ module.exports = {
     new GlobCopyWebpackPlugin({
       "patterns": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        "CNAME"
       ],
       "globOptions": {
-        "cwd": "/home/leiko/dev/kevoree/ng4-web-editor/src",
+        "cwd": "./src",
         "dot": true,
         "ignore": "**/.gitkeep"
       }
