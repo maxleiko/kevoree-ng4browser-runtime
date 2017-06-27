@@ -1,7 +1,7 @@
 <div class="dashboard">
   <div *ngFor="let tile of tiles" class="tile-container">
     <div class="tile-header">
-      <span class="tile-name">{{ tile.name }} - {{ tile.type }}</span>
+      <span class="tile-name">{{ tile.name }}: {{ tile.type }}</span>
     </div>
     <iframe
       id="tile-{{ tile.name }}"

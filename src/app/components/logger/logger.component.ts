@@ -11,9 +11,11 @@ import { LoggerService, LogLevel } from '../../services/logger.service';
 })
 export class LoggerComponent implements OnDestroy {
 
+  logsVisible = false;
+
   private intervalId: any;
 
-  constructor(private logger: LoggerService, private ref: ChangeDetectorRef) {
+  constructor(public logger: LoggerService, private ref: ChangeDetectorRef) {
     this.intervalId = setInterval(() => {
       this.ref.markForCheck();
     }, 1000);
@@ -34,5 +36,17 @@ export class LoggerComponent implements OnDestroy {
       case LogLevel.ERROR:
         return 'danger';
     }
+  }
+
+  toggleLogs(): void {
+    this.logsVisible = !this.logsVisible;
+  }
+
+  clearLogs(): void {
+    this.logger.clear();
+  }
+
+  reverseLogs(): void {
+    this.logger.reverseOrder();
   }
 }

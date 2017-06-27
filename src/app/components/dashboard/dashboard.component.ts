@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { KevoreeCoreService } from '../../services/kevoree-core.service';
+import { KevoreeCoreService, State } from '../../services/kevoree-core.service';
 
 export interface Tile {
+  path: string;
   name: string;
   type: string;
   src: string;
@@ -15,18 +17,26 @@ export interface Tile {
 })
 export class DashboardComponent {
 
-  private tiles: Tile[];
+  tiles: Tile[] = [];
 
-  constructor(private core: KevoreeCoreService) {
-    this.core.onDeploy.subscribe((components) => {
-      this.tiles = Object.keys(components).map((path) => {
-        const elem = components[path].getModelEntity();
-        return {
-          name: components[path].getName(),
-          type: elem.typeDefinition.name + '/' + elem.typeDefinition.version,
-          src: '/assets/iframes/tile.html?path=' + encodeURI(path)
-        };
+  constructor(private core: KevoreeCoreService, private router: Router) {
+    if (this.core.state.getValue() === State.STARTED) {
+      this.core.onDeploy.subscribe((components) => {
+        Object.keys(components).forEach((path) => {
+          const tile = this.tiles.find(t => t.path === path);
+          if (!tile) {
+            const elem = components[path].getModelEntity();
+            this.tiles.push({
+              path,
+              name: components[path].getName(),
+              type: elem.typeDefinition.name + '/' + elem.typeDefinition.version,
+              src: '/assets/iframes/tile.html?path=' + encodeURI(path)
+            });
+          }
+        });
       });
-    });
+    } else {
+      router.navigate(['home']);
+    }
   }
 }

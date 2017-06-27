@@ -10,15 +10,20 @@ import { ResolverService, ResolverCallback } from './resolver.service';
 
 import KevoreeInstanceLoader from '../lib/kevoree-instance-loader';
 
+export enum State {
+  INIT = 0, STARTING = 1, STARTED = 2, STOPPING = 3, STOPPED = 4
+}
+
 @Injectable()
 export class KevoreeCoreService {
   private core: KevoreeCore;
-
+  public state: BehaviorSubject<State>;
   public onDeploy: BehaviorSubject<{ [key: string]: any }>;
 
   constructor(private logger: LoggerService, private kevs: KevScriptService,
               private resolver: ResolverService) {
     logger.debug('Initiating KevoreeCoreService...');
+    this.state = new BehaviorSubject<State>(State.INIT);
     this.onDeploy = new BehaviorSubject<{ [key: string]: any }>([]);
     this.core = new KevoreeCore(kevs.getInstance(), '_browser_fake_', logger);
     this.core.setBootstrapper({
@@ -65,6 +70,11 @@ export class KevoreeCoreService {
       },
     });
 
+    this.core.on('stopped', () => {
+      console.log('stopped!');
+      this.state.next(State.STOPPED);
+    });
+
     this.core.on('deployed', () => {
       Object.keys(this.core.nodeInstance.adaptationEngine.modelObjMapper.map)
         .forEach((path) => {
@@ -80,8 +90,10 @@ export class KevoreeCoreService {
   }
 
   start(nodeName: string): Promise<void> {
+    this.state.next(State.STARTING);
     this.logger.debug('Starting Kevoree core...');
     this.core.start(nodeName);
+    this.state.next(State.STARTED);
     return Promise.resolve();
   }
 
@@ -98,6 +110,7 @@ export class KevoreeCoreService {
   }
 
   stop(): Promise<void> {
+    this.state.next(State.STOPPING);
     this.logger.debug('Stopping Kevoree core...');
     return new Promise<void>((resolve) => {
       this.core.on('stopped', resolve);

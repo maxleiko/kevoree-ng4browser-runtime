@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <div class="row justify-content-md-center" *ngIf="state !== 2">
+  <div class="row justify-content-md-center">
     <div class="col-12 col-md-7">
       <div class="form-group">
         <label for="name">Node name</label>
@@ -9,6 +9,7 @@
           class="form-control"
           name="name"
           [(ngModel)]="name"
+          [disabled]="core.state.getValue() === 2"
           placeholder="eg. node0, myNode">
       </div>
 
@@ -25,11 +26,12 @@
         </p>
       </div>
 
-      <div class="form-group">
-        <button type="button" class="btn btn-secondary" (click)="click()" (disabled)="!isClickable">{{ btn }}</button>
+      <div class="container form-group btn-bar">
+        <div class="row justify-content-between">
+          <button type="button" class="btn btn-info" (click)="start()" [disabled]="core.state.getValue() !== 0 && core.state.getValue() !== 4">Start</button>
+          <button type="button" class="btn btn-warning" (click)="stop()" [disabled]="core.state.getValue() !== 2">Stop</button>
+        </div>
       </div>
     </div>
   </div>
-
-  <app-dashboard></app-dashboard>
 </div>

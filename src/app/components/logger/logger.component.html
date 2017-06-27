@@ -1,15 +1,26 @@
-<div class="list-group">
-  <div
-    *ngFor="let log of logger.getLogs()"
-    class="list-group-item list-group-item-action list-group-item-{{convertLevel(log.level)}}">
-    <span class="date">
-      <pre><code>{{ log.date | date:'dd/MM/yy HH:mm:ss' }}</code></pre>
-    </span>
-    <span class="tag">
-      <pre><code>{{ log.tag }}</code></pre>
-    </span>
-    <span class="line">
-      <pre><code>{{ log.line }}</code></pre>
-    </span>
+<div class="logger-panel" [ngClass]="{ 'unfold': logsVisible }">
+  <span class="logger-toggle" (click)="toggleLogs()">{{ logsVisible ? 'Hide':'Show' }} logs</span>
+  <div class="logger-actions">
+    <span class="logger-action" (click)="reverseLogs()">Reverse</span>
+    <span class="logger-action" (click)="clearLogs()">Clear</span>
+  </div>
+  <div class="logger-container">
+    <div class="logger">
+      <div class="list-group">
+        <div
+          *ngFor="let log of logger.getLogs()"
+          class="list-group-item list-group-item-action list-group-item-{{convertLevel(log.level)}}">
+          <span class="date">
+            <pre><code>{{ log.date | date:'dd/MM/yy HH:mm:ss' }}</code></pre>
+          </span>
+          <span class="tag">
+            <pre><code>{{ log.tag }}</code></pre>
+          </span>
+          <span class="line">
+            <pre><code>{{ log.line }}</code></pre>
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

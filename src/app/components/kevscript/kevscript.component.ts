@@ -9,7 +9,7 @@ export class KevScriptComponent {
   private _script: string;
 
   @Output()
-  protected scriptChanged: EventEmitter<string> = new EventEmitter<string>();
+  scriptChanged: EventEmitter<string> = new EventEmitter<string>();
 
   @Input()
   set script(val: string) {

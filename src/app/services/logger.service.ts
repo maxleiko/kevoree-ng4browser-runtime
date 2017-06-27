@@ -84,6 +84,7 @@ export class LoggerService {
 
   clear(): void {
     this.logs.length = 0;
+    this.reverseLogs.length = 0;
   }
 
   reverseOrder(): void {

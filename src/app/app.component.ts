@@ -9,22 +9,9 @@ import kevoree from 'kevoree-library';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  private logsVisible = false;
 
   constructor(private logger: LoggerService) {
     const factory = new kevoree.factory.DefaultKevoreeFactory();
     logger.info(`Kevoree MetaModel v${factory.getVersion()}`);
-  }
-
-  toggleLogs(): void {
-    this.logsVisible = !this.logsVisible;
-  }
-
-  clearLogs(): void {
-    this.logger.clear();
-  }
-
-  reverseLogs(): void {
-    this.logger.reverseOrder();
   }
 }

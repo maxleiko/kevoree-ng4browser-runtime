@@ -8,16 +8,17 @@ import { TinyConfService } from '../../services/tiny-conf.service';
   providers: [ LocalStorageService ]
 })
 export class SettingsComponent {
-  @LocalStorage('registry', 'https://registry.kevoree.org')
-  private registry: string;
-  private registryTimeout;
+  @LocalStorage('registry', 'https://new-registry.kevoree.org')
+  registry: string;
+
+  registryTimeout;
 
   constructor(private logger: LoggerService, private config: TinyConfService,
               private storage: LocalStorageService) {
     this.updateRegistry(storage.retrieve('registry'));
   }
 
-  private updateRegistry(registry: string): void {
+  updateRegistry(registry: string): void {
     clearTimeout(this.registryTimeout);
     this.registryTimeout = setTimeout(() => {
       try {
