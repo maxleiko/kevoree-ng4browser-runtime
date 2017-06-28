@@ -24,6 +24,8 @@
     "@angular/router": "^4.0.0",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.26",
     "bootstrap": "^4.0.0-alpha.6",
+    "cm-mode-kevscript": "^1.0.2",
+    "codemirror": "^5.27.2",
     "core-js": "^2.4.1",
     "kevoree-core": "^9.0.6",
     "kevoree-kevscript": "^5.0.0-alpha.2",

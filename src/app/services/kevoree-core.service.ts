@@ -117,4 +117,8 @@ export class KevoreeCoreService {
       this.core.stop();
     });
   }
+
+  getModel(): ContainerRoot {
+    return this.core.getCurrentModel();
+  }
 }

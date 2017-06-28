@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { Ng2Webstorage, LocalStorageService } from 'ngx-webstorage';
+// import { CodemirrorModule } from 'ng2-codemirror';
 import { routing } from './app.routing';
 
 // app root
@@ -44,6 +45,7 @@ import { SafePipe } from './pipes/safe.pipe';
     FormsModule,
     NgbModule.forRoot(),
     Ng2Webstorage,
+    // CodemirrorModule,
   ],
   providers: [
     LoggerService,

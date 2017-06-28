@@ -12,7 +12,7 @@ export class HomeComponent {
   script: string;
 
   constructor(public core: KevoreeCoreService, private logger: LoggerService,
-              private kevs: KevScriptService) {
+    private kevs: KevScriptService) {
     this.name = 'node' + (Math.floor(Math.random() * 1000) + 1);
     this.script = `add ${this.name}: JavascriptNode/LATEST/LATEST
 add ${this.name}.ticker: Ticker/LATEST/LATEST
