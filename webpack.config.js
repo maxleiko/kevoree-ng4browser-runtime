@@ -431,7 +431,7 @@ module.exports = {
     ]
   },
   "plugins": [
-    new CleanWebpackPlugin('docs'),
+    new CleanWebpackPlugin(['docs']),
     new NoEmitOnErrorsPlugin(),
     new GlobCopyWebpackPlugin({
       "patterns": [
