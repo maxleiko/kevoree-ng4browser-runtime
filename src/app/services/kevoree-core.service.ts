@@ -71,18 +71,30 @@ export class KevoreeCoreService {
     });
 
     this.core.on('stopped', () => {
-      console.log('stopped!');
       this.state.next(State.STOPPED);
     });
 
     this.core.on('deployed', () => {
-      Object.keys(this.core.nodeInstance.adaptationEngine.modelObjMapper.map)
-        .forEach((path) => {
-          const instance = this.core.nodeInstance.adaptationEngine.modelObjMapper.map[path];
+      const currentKeys = Object.keys(this.core.nodeInstance.adaptationEngine.modelObjMapper.map);
+      const registeredKeys = Object.keys(KevoreeInstanceLoader.getInstances());
+
+      currentKeys
+        .forEach((key) => {
+          const instance = this.core.nodeInstance.adaptationEngine.modelObjMapper.map[key];
           if (instance && typeof instance.uiFactory === 'function') {
-            KevoreeInstanceLoader.register(path, instance);
+            if (!KevoreeInstanceLoader.has(key)) {
+              KevoreeInstanceLoader.register(key, instance);
+            }
           }
         });
+
+      for (let i = 0; i < registeredKeys.length; i++) {
+        const hasKey = currentKeys.find((key) => registeredKeys[i] === key);
+        if (!hasKey) {
+          // clean removed instance
+          KevoreeInstanceLoader.remove(registeredKeys[i]);
+        }
+      }
 
       this.onDeploy.next(KevoreeInstanceLoader.getInstances());
     });
@@ -109,6 +121,10 @@ export class KevoreeCoreService {
     });
   }
 
+  submitScript(script: string) {
+    this.core.submitScript(script);
+  }
+
   stop(): Promise<void> {
     this.state.next(State.STOPPING);
     this.logger.debug('Stopping Kevoree core...');
@@ -116,6 +132,14 @@ export class KevoreeCoreService {
       this.core.on('stopped', resolve);
       this.core.stop();
     });
+  }
+
+  isBootstrapped() {
+    return this.core.nodeInstance ? this.core.nodeInstance.started : false;
+  }
+
+  getNodeName() {
+    return this.core.nodeInstance.name;
   }
 
   getModel(): ContainerRoot {

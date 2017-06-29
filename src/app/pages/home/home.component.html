@@ -28,7 +28,10 @@
 
       <div class="container form-group btn-bar">
         <div class="row justify-content-between">
-          <button type="button" class="btn btn-info" (click)="start()" [disabled]="core.state.getValue() !== 0 && core.state.getValue() !== 4">Start</button>
+          <div>
+            <button type="button" class="btn btn-info" (click)="start()" [disabled]="core.state.getValue() !== 0 && core.state.getValue() !== 4">Start</button>
+            <button type="button" class="btn btn-info" (click)="submitScript()" [disabled]="!core.isBootstrapped()">Submit script</button>
+          </div>
           <button type="button" class="btn btn-warning" (click)="stop()" [disabled]="core.state.getValue() !== 2">Stop</button>
         </div>
       </div>

@@ -8,6 +8,7 @@ export interface Tile {
   name: string;
   type: string;
   src: string;
+  started: boolean;
 }
 
 @Component({
@@ -26,12 +27,15 @@ export class DashboardComponent {
           const tile = this.tiles.find(t => t.path === path);
           if (!tile) {
             const elem = components[path].getModelEntity();
-            this.tiles.push({
-              path,
-              name: components[path].getName(),
-              type: elem.typeDefinition.name + '/' + elem.typeDefinition.version,
-              src: '/assets/iframes/tile.html?path=' + encodeURI(path)
-            });
+            if (elem) {
+              this.tiles.push({
+                path,
+                name: components[path].getName(),
+                type: elem.typeDefinition.name + '/' + elem.typeDefinition.version,
+                src: '/assets/iframes/tile.html?path=' + encodeURI(path),
+                started: components[path].started
+              });
+            }
           }
         });
       });

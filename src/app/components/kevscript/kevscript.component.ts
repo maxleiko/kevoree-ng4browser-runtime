@@ -60,14 +60,21 @@ export class KevScriptComponent implements AfterViewInit {
       this.editor.setValue(this._script);
     }
     this.editor.refresh();
+    this.editor.on('changes', (cm) => {
+      this._script = cm.getValue();
+      this.scriptChanged.emit(this._script);
+    });
   }
 
   @Input()
   set script(val: string) {
-    this._script = val;
     if (this.editor) {
-      this.editor.setValue(this._script);
+      if (val !== this._script) {
+        this.editor.setValue(val);
+      }
     }
+    this._script = val;
+    this.scriptChanged.emit(this._script);
   }
 
   get script(): string {

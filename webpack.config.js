@@ -9,6 +9,7 @@ const cssnano = require('cssnano');
 const { NoEmitOnErrorsPlugin, SourceMapDevToolPlugin, NamedModulesPlugin } = require('webpack');
 const { GlobCopyWebpackPlugin, BaseHrefWebpackPlugin } = require('@angular/cli/plugins/webpack');
 const { CommonsChunkPlugin } = require('webpack').optimize;
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const { AotPlugin } = require('@ngtools/webpack');
 
 const nodeModules = path.join(process.cwd(), 'node_modules');
@@ -430,6 +431,7 @@ module.exports = {
     ]
   },
   "plugins": [
+    new CleanWebpackPlugin('docs'),
     new NoEmitOnErrorsPlugin(),
     new GlobCopyWebpackPlugin({
       "patterns": [

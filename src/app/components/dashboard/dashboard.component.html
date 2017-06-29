@@ -3,6 +3,9 @@
     <div class="tile-header">
       <span class="tile-name">{{ tile.name }}: {{ tile.type }}</span>
     </div>
+    <div class="tile-stopped" *ngIf="!tile.started">
+      <span>STOPPED</span>
+    </div>
     <iframe
       id="tile-{{ tile.name }}"
       [src]="tile.src | safe"

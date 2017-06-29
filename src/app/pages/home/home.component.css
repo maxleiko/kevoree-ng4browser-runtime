@@ -4,5 +4,5 @@
     in order to still be able to see the buttons
     under the log panel
   */
-  margin-bottom: 70px;
+  margin-bottom: 70px !important;
 }

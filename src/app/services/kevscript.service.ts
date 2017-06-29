@@ -28,6 +28,10 @@ export class KevScriptService {
     });
   }
 
+  parseModel(model: ContainerRoot): string {
+    return this.kevs.parseModel(model);
+  }
+
   getInstance(): KevScript {
     return this.kevs;
   }

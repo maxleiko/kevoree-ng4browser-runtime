@@ -1,5 +1,6 @@
 * {
   font-family: "DeJaVu Mono", "monospace";
+  z-index: 1000;
 }
 
 pre {

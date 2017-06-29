@@ -2,18 +2,40 @@
   background-color: #fff;
   display: inline-block;
   margin: 5px;
-  width: 300px;
-  height: 325px;
+  width: 302px;
+  height: 327px;
   border: 1px solid #999;
 }
 
 .tile-container .tile-header {
-  padding: 2px 5px;
+  padding: 0 5px;
   height: 25px;
-  line-height: 16px;
-  font-size: 16px;
-  border-bottom: 1px solid #fff;
+  width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 25px;
+  border-bottom: 1px solid #999;
   background-color: #333;
+}
+
+.tile-container .tile-header .tile-name {
+  font-size: 16px;
+  height: 25px;
+  line-height: 25px;
+}
+
+.tile-container .tile-stopped {
+  z-index: 100;
+  display: flex;
+  position: absolute;
+  background-color: black;
+  opacity: 0.55;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 300px;
+  font-size: 2em;
+  color: white;
 }
 
 .tile-container .tile {
