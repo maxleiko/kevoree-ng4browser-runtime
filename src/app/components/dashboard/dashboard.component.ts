@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { KevoreeCoreService, State } from '../../services/kevoree-core.service';
+import { KevoreeCoreService, State } from '../../services/core.service';
 
 export interface Tile {
   path: string;
@@ -39,8 +39,6 @@ export class DashboardComponent {
           }
         });
       });
-    } else {
-      router.navigate(['home']);
     }
   }
 }

@@ -1,13 +1,9 @@
-* {
-  font-family: "DeJaVu Mono", "monospace";
-  z-index: 1000;
-}
-
 pre {
   margin: 0;
 }
 
 .logger-container {
+  z-index: 1000;
   position: fixed;
   left: 0;
   bottom: 0;
@@ -15,69 +11,74 @@ pre {
   height: 27px;
   border: 1px solid #ccc;
   background-color: #333;
-  overflow: hidden;
+  overflow-y: scroll;
   word-wrap: break-word;
 }
 
-.logger-panel.unfold .logger-container {
-  height: 400px;
-  overflow-y: scroll;
-}
-
-.logger-panel.unfold .logger-toggle,
-.logger-panel.unfold .logger-actions {
-  bottom: 400px;
-}
-
-.logger-toggle {
+.logger-grip {
+  z-index: 1000;
   font-size: 12px;
-  padding: 2px 5px;
+  padding: 0 10px;
   position: fixed;
-  left: 5px;
+  -webkit-user-select: none;
+   -khtml-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  left: 50%;
   bottom: 26px;
   border: 1px solid #ccc;
   border-bottom: none;
   background-color: #333;
-  border-bottom: 1px solid #333;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
 
-.logger-toggle:hover {
-  cursor: pointer;
+.logger-grip:hover {
+  cursor: grab;
   background-color: #444;
   color: #fff;
 }
 
+.logger-grip:active {
+  cursor: grabbing;
+}
+
 .logger-actions {
+  font-family: "DeJaVu Mono", "monospace";
   font-size: 12px;
   position: fixed;
   right: 5px;
   bottom: 26px;
+  -webkit-user-select: none;
+   -khtml-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
-.logger-actions > .logger-action {
+.logger-actions>.logger-action {
   padding: 2px 5px;
   border: 1px solid #ccc;
   border-bottom: none;
   background-color: #333;
-  border-bottom: 1px solid #333;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
 
-.logger-actions > .logger-action:hover {
+.logger-actions>.logger-action:hover {
   cursor: pointer;
   background-color: #444;
   color: #fff;
 }
 
 .list-group-item {
+  display: flex;
   padding: 2px 0;
   border-radius: 0;
 }
 
-.list-group-item > * > * {
+.list-group-item>*>* {
   overflow: hidden;
   text-overflow: ellipsis;
 }

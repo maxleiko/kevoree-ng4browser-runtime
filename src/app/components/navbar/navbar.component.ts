@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { KevoreeCoreService } from '../../services/kevoree-core.service';
+import { KevoreeCoreService } from '../../services/core.service';
 
 @Component({
   selector: 'app-nav-bar',

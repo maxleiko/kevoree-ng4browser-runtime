@@ -30,28 +30,38 @@ const postcssPlugins = function () {
   };
   return [
     postcssUrl({
-      url: (URL) => {
+      url: (url) => {
         // Only convert root relative URLs, which CSS-Loader won't process into require().
-        if (!URL.startsWith('/') || URL.startsWith('//')) {
-          return URL;
+        if (!url.startsWith('/') || url.startsWith('//')) {
+          return url;
         }
         if (deployUrl.match(/:\/\//)) {
           // If deployUrl contains a scheme, ignore baseHref use deployUrl as is.
-          return `${deployUrl.replace(/\/$/, '')}${URL}`;
+          return `${deployUrl.replace(/\/$/, '')}${url}`;
         } else if (baseHref.match(/:\/\//)) {
           // If baseHref contains a scheme, include it as is.
           return baseHref.replace(/\/$/, '') +
-            `/${deployUrl}/${URL}`.replace(/\/\/+/g, '/');
+            `/${deployUrl}/${url}`.replace(/\/\/+/g, '/');
         } else {
           // Join together base-href, deploy-url and the original URL.
           // Also dedupe multiple slashes into single ones.
-          return `/${baseHref}/${deployUrl}/${URL}`.replace(/\/\/+/g, '/');
+          return `/${baseHref}/${deployUrl}/${url}`.replace(/\/\/+/g, '/');
         }
       }
     }),
     autoprefixer(),
   ].concat(minimizeCss ? [cssnano(minimizeOptions)] : []);
 };
+
+const stylesheets = [
+  "node_modules/codemirror/lib/codemirror.css",
+  "node_modules/codemirror/addon/lint/lint.css",
+  "node_modules/codemirror/addon/hint/show-hint.css",
+  "node_modules/codemirror/addon/dialog/dialog.css",
+  "node_modules/cm-mode-kevscript/src/hint/hint.css",
+  "node_modules/cm-mode-kevscript/src/theme/kevscript.css",
+  "src/styles.css",
+];
 
 module.exports = {
   "resolve": {
@@ -76,8 +86,8 @@ module.exports = {
       "./src/polyfills.ts"
     ],
     "scripts": [
-      "script-loader!./node_modules/tether/dist/js/tether.js",
       "script-loader!./node_modules/jquery/dist/jquery.js",
+      "script-loader!./node_modules/popper.js/dist/umd/popper.js",
       "script-loader!./node_modules/bootstrap/dist/js/bootstrap.js",
       "script-loader!./node_modules/tiny-conf/dist/tiny-conf.js",
       "script-loader!./node_modules/kevoree-library/browser/kevoree-library.js",
@@ -85,23 +95,10 @@ module.exports = {
       "script-loader!./node_modules/kevoree-registry-client/build/browser/kevoree-registry-client.js",
       "script-loader!./node_modules/kevoree-kevscript/browser/kevoree-kevscript.js",
       "script-loader!./node_modules/codemirror/lib/codemirror.js",
-      "script-loader!./node_modules/cm-mode-kevscript/dist/mode.js",
       "script-loader!./node_modules/codemirror/addon/lint/lint.js",
       "script-loader!./node_modules/codemirror/addon/hint/show-hint.js",
-      "script-loader!./node_modules/cm-mode-kevscript/dist/lint.js",
-      "script-loader!./node_modules/cm-mode-kevscript/dist/hint.js",
     ],
-    "styles": [
-      "./node_modules/tether/dist/css/tether.css",
-      "./node_modules/bootstrap/dist/css/bootstrap.css",
-      "./node_modules/codemirror/lib/codemirror.css",
-      "./node_modules/codemirror/addon/lint/lint.css",
-      "./node_modules/codemirror/addon/hint/show-hint.css",
-      "./node_modules/codemirror/addon/dialog/dialog.css",
-      "./node_modules/cm-mode-kevscript/src/theme/kevscript.css",
-      "./node_modules/cm-mode-kevscript/src/hint/hint.css",
-      "./src/styles.css",
-    ]
+    "styles": stylesheets.map((p) => './' + p)
   },
   "output": {
     "path": path.join(process.cwd(), "docs"),
@@ -135,17 +132,7 @@ module.exports = {
         "loader": "url-loader?name=[name].[hash:20].[ext]&limit=10000"
       },
       {
-        "exclude": [
-          path.join(process.cwd(), "node_modules/tether/dist/css/tether.css"),
-          path.join(process.cwd(), "node_modules/bootstrap/dist/css/bootstrap.css"),
-          path.join(process.cwd(), "node_modules/codemirror/lib/codemirror.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/lint/lint.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/hint/show-hint.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/dialog/dialog.css"),
-          path.join(process.cwd(), "node_modules/cm-mode-kevscript/src/theme/kevscript.css"),
-          path.join(process.cwd(), "node_modules/cm-mode-kevscript/src/hint/hint.css"),
-          path.join(process.cwd(), "src/styles.css")
-        ],
+        "exclude": stylesheets.map((p) => path.join(process.cwd(), p)),
         "test": /\.css$/,
         "use": [
           "exports-loader?module.exports.toString()",
@@ -166,17 +153,7 @@ module.exports = {
         ]
       },
       {
-        "exclude": [
-          path.join(process.cwd(), "node_modules/tether/dist/css/tether.css"),
-          path.join(process.cwd(), "node_modules/bootstrap/dist/css/bootstrap.css"),
-          path.join(process.cwd(), "node_modules/codemirror/lib/codemirror.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/lint/lint.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/hint/show-hint.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/dialog/dialog.css"),
-          path.join(process.cwd(), "node_modules/cm-mode-kevscript/src/theme/kevscript.css"),
-          path.join(process.cwd(), "node_modules/cm-mode-kevscript/src/hint/hint.css"),
-          path.join(process.cwd(), "src/styles.css")
-        ],
+        "exclude": stylesheets.map((p) => path.join(process.cwd(), p)),
         "test": /\.scss$|\.sass$/,
         "use": [
           "exports-loader?module.exports.toString()",
@@ -205,17 +182,7 @@ module.exports = {
         ]
       },
       {
-        "exclude": [
-          path.join(process.cwd(), "node_modules/tether/dist/css/tether.css"),
-          path.join(process.cwd(), "node_modules/bootstrap/dist/css/bootstrap.css"),
-          path.join(process.cwd(), "node_modules/codemirror/lib/codemirror.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/lint/lint.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/hint/show-hint.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/dialog/dialog.css"),
-          path.join(process.cwd(), "node_modules/cm-mode-kevscript/src/theme/kevscript.css"),
-          path.join(process.cwd(), "node_modules/cm-mode-kevscript/src/hint/hint.css"),
-          path.join(process.cwd(), "src/styles.css")
-        ],
+        "exclude": stylesheets.map((p) => path.join(process.cwd(), p)),
         "test": /\.less$/,
         "use": [
           "exports-loader?module.exports.toString()",
@@ -242,17 +209,7 @@ module.exports = {
         ]
       },
       {
-        "exclude": [
-          path.join(process.cwd(), "node_modules/tether/dist/css/tether.css"),
-          path.join(process.cwd(), "node_modules/bootstrap/dist/css/bootstrap.css"),
-          path.join(process.cwd(), "node_modules/codemirror/lib/codemirror.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/lint/lint.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/hint/show-hint.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/dialog/dialog.css"),
-          path.join(process.cwd(), "node_modules/cm-mode-kevscript/src/theme/kevscript.css"),
-          path.join(process.cwd(), "node_modules/cm-mode-kevscript/src/hint/hint.css"),
-          path.join(process.cwd(), "src/styles.css")
-        ],
+        "exclude": stylesheets.map((p) => path.join(process.cwd(), p)),
         "test": /\.styl$/,
         "use": [
           "exports-loader?module.exports.toString()",
@@ -280,17 +237,7 @@ module.exports = {
         ]
       },
       {
-        "include": [
-          path.join(process.cwd(), "node_modules/tether/dist/css/tether.css"),
-          path.join(process.cwd(), "node_modules/bootstrap/dist/css/bootstrap.css"),
-          path.join(process.cwd(), "node_modules/codemirror/lib/codemirror.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/lint/lint.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/hint/show-hint.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/dialog/dialog.css"),
-          path.join(process.cwd(), "node_modules/cm-mode-kevscript/src/theme/kevscript.css"),
-          path.join(process.cwd(), "node_modules/cm-mode-kevscript/src/hint/hint.css"),
-          path.join(process.cwd(), "src/styles.css")
-        ],
+        "include": stylesheets.map((p) => path.join(process.cwd(), p)),
         "test": /\.css$/,
         "use": [
           "style-loader",
@@ -311,17 +258,7 @@ module.exports = {
         ]
       },
       {
-        "include": [
-          path.join(process.cwd(), "node_modules/tether/dist/css/tether.css"),
-          path.join(process.cwd(), "node_modules/bootstrap/dist/css/bootstrap.css"),
-          path.join(process.cwd(), "node_modules/codemirror/lib/codemirror.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/lint/lint.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/hint/show-hint.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/dialog/dialog.css"),
-          path.join(process.cwd(), "node_modules/cm-mode-kevscript/src/theme/kevscript.css"),
-          path.join(process.cwd(), "node_modules/cm-mode-kevscript/src/hint/hint.css"),
-          path.join(process.cwd(), "src/styles.css")
-        ],
+        "include": stylesheets.map((p) => path.join(process.cwd(), p)),
         "test": /\.scss$|\.sass$/,
         "use": [
           "style-loader",
@@ -350,17 +287,7 @@ module.exports = {
         ]
       },
       {
-        "include": [
-          path.join(process.cwd(), "node_modules/tether/dist/css/tether.css"),
-          path.join(process.cwd(), "node_modules/bootstrap/dist/css/bootstrap.css"),
-          path.join(process.cwd(), "node_modules/codemirror/lib/codemirror.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/lint/lint.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/hint/show-hint.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/dialog/dialog.css"),
-          path.join(process.cwd(), "node_modules/cm-mode-kevscript/src/theme/kevscript.css"),
-          path.join(process.cwd(), "node_modules/cm-mode-kevscript/src/hint/hint.css"),
-          path.join(process.cwd(), "src/styles.css")
-        ],
+        "include": stylesheets.map((p) => path.join(process.cwd(), p)),
         "test": /\.less$/,
         "use": [
           "style-loader",
@@ -387,17 +314,7 @@ module.exports = {
         ]
       },
       {
-        "include": [
-          path.join(process.cwd(), "node_modules/tether/dist/css/tether.css"),
-          path.join(process.cwd(), "node_modules/bootstrap/dist/css/bootstrap.css"),
-          path.join(process.cwd(), "node_modules/codemirror/lib/codemirror.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/lint/lint.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/hint/show-hint.css"),
-          path.join(process.cwd(), "node_modules/codemirror/addon/dialog/dialog.css"),
-          path.join(process.cwd(), "node_modules/cm-mode-kevscript/src/theme/kevscript.css"),
-          path.join(process.cwd(), "node_modules/cm-mode-kevscript/src/hint/hint.css"),
-          path.join(process.cwd(), "src/styles.css")
-        ],
+        "include": stylesheets.map((p) => path.join(process.cwd(), p)),
         "test": /\.styl$/,
         "use": [
           "style-loader",
@@ -425,8 +342,8 @@ module.exports = {
         ]
       },
       {
-        "test": /\.ts$/,
-        "loader": "@ngtools/webpack"
+        test: /\.(ts|js)$/,
+        loader: "@ngtools/webpack"
       }
     ]
   },
@@ -464,7 +381,7 @@ module.exports = {
       "showErrors": true,
       "chunks": "all",
       "excludeChunks": [],
-      "title": "Webpack App",
+      "title": "Kevoree Browser Runtime",
       "xhtml": true,
       "chunksSortMode": function sort(left, right) {
         let leftIndex = entryPoints.indexOf(left.names[0]);

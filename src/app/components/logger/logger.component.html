@@ -1,10 +1,16 @@
-<div class="logger-panel" [ngClass]="{ 'unfold': logsVisible }">
-  <span class="logger-toggle" (click)="toggleLogs()">{{ logsVisible ? 'Hide':'Show' }} logs</span>
-  <div class="logger-actions">
+<div class="logger-panel">
+  <span
+    class="logger-grip"
+    (dblclick)="toggleHeight($event)"
+    (mousedown)="onGripMouseDown($event)"
+    [ngStyle]="{'bottom': height + 'px'}">
+    <i class="fa fa-bars"></i>
+  </span>
+  <div class="logger-actions" [ngStyle]="{'bottom': height + 'px'}">
     <span class="logger-action" (click)="reverseLogs()">Reverse</span>
     <span class="logger-action" (click)="clearLogs()">Clear</span>
   </div>
-  <div class="logger-container">
+  <div class="logger-container" [ngStyle]="{'height': height + 'px'}">
     <div class="logger">
       <div class="list-group">
         <div

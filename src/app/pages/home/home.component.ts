@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { LoggerService } from '../../services/logger.service';
-import { KevoreeCoreService, State } from '../../services/kevoree-core.service';
+import { KevoreeCoreService, State } from '../../services/core.service';
 import { KevScriptService } from '../../services/kevscript.service';
 
 const SUBMIT_SCRIPT = '// you can now submit script to make changes @runtime :)\n';
@@ -21,10 +21,10 @@ export class HomeComponent {
       this.script = SUBMIT_SCRIPT;
     } else {
       this.name = 'node' + (Math.floor(Math.random() * 1000) + 1);
-      this.script = `add ${this.name}: JavascriptNode/LATEST/LATEST
-add ${this.name}.ticker: Ticker/LATEST/LATEST
-add ${this.name}.printer: ConsolePrinter/LATEST/LATEST
-add chan: LocalChannel/LATEST/LATEST
+      this.script = `add ${this.name}: JavascriptNode
+add ${this.name}.ticker: Ticker
+add ${this.name}.printer: ConsolePrinter
+add chan: LocalChannel
 
 bind ${this.name}.ticker.tick chan
 bind ${this.name}.printer.input chan`;
@@ -34,15 +34,19 @@ bind ${this.name}.printer.input chan`;
   start() {
     if (this.core.state.getValue() === State.INIT || this.core.state.getValue() === State.STOPPED) {
       this.core.start(this.name)
-        .then(() => {
-          return this.kevs.interpret(this.script);
-        })
-        .then((model) => {
-          return this.core.deploy(model);
-        })
+        .then(() => this.kevs.interpret(this.script)
+          .then(({ model, warnings }) => {
+            warnings.forEach((warning) => this.logger.warn(warning));
+            return model;
+          }))
+        .then((model) => this.core.deploy(model))
         .then(() => {
           this.script = SUBMIT_SCRIPT;
           this.logger.info('Platform bootstrapped successfully :)');
+        })
+        .catch((err) => {
+          this.logger.error(err.message);
+          console.log(err.stack);
         });
     }
   }

@@ -11,7 +11,8 @@ import { routing } from './app.routing';
 import { AppComponent } from './app.component';
 // app services
 import { LoggerService } from './services/logger.service';
-import { KevoreeCoreService } from './services/kevoree-core.service';
+import { LoggerFactoryService } from './services/logger-factory.service';
+import { KevoreeCoreService } from './services/core.service';
 import { TinyConfService } from './services/tiny-conf.service';
 import { KevScriptService } from './services/kevscript.service';
 import { ResolverService } from './services/resolver.service';
@@ -45,14 +46,14 @@ import { SafePipe } from './pipes/safe.pipe';
     FormsModule,
     NgbModule.forRoot(),
     Ng2Webstorage,
-    // CodemirrorModule,
   ],
   providers: [
     LoggerService,
+    ResolverService,
     TinyConfService,
     KevScriptService,
     KevoreeCoreService,
-    ResolverService
+    LoggerFactoryService,
   ],
   bootstrap: [AppComponent]
 })

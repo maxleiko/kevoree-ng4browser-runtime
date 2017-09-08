@@ -1,3 +1,12 @@
+.dashboard {
+  display: flex;
+}
+
+.dashboard.empty {
+  align-items: center;
+  justify-content: center;
+}
+
 .tile-container {
   background-color: #fff;
   display: inline-block;

@@ -5,8 +5,12 @@ import {
 import * as kevoree from 'kevoree-library';
 import * as CodeMirror from 'codemirror';
 
+import 'cm-mode-kevscript/src/mode/kevscript';
+import 'cm-mode-kevscript/src/lint/lint';
+import 'cm-mode-kevscript/src/hint/hint';
+
 import { KevScriptService } from '../../services/kevscript.service';
-import { KevoreeCoreService } from '../../services/kevoree-core.service';
+import { KevoreeCoreService } from '../../services/core.service';
 
 @Component({
   selector: 'app-kevscript',

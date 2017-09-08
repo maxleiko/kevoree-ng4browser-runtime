@@ -1,4 +1,4 @@
-<nav class="navbar navbar-fixed-top navbar-toggleable-md navbar-inverse bg-inverse">
+<nav class="navbar navbar-toggleable-md navbar-fixed-top navbar-inverse bg-inverse">
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -11,7 +11,7 @@
       <li class="nav-item" [routerLinkActive]="['active']">
         <a class="nav-link" [routerLink]="['/home']">Home</a>
       </li>
-      <li class="nav-item" [routerLinkActive]="['active']" *ngIf="core.state.getValue() === 2">
+      <li class="nav-item" [routerLinkActive]="['active']">
         <a class="nav-link" [routerLink]="['/dashboard']">
           Dashboard <span class="badge badge-pill badge-default" *ngIf="tilesCount > 0">{{ tilesCount }}</span>
         </a>

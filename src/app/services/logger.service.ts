@@ -13,62 +13,51 @@ export class LogLine {
 
 @Injectable()
 export class LoggerService {
+  private tag: string;
   private logs: LogLine[];
   private reverseLogs: LogLine[];
   private reverse: boolean;
 
   constructor() {
+    this.tag = 'BrowserRuntime';
     this.logs = [];
     this.reverseLogs = [];
     this.reverse = true;
   }
 
-  info(tag: string, msg?: string): void {
-    if (!msg) {
-      msg = tag;
-      tag = 'BrowserRuntime';
-    }
+  info(msg: any): void {
+    console.log(msg);
     this.addLog({
-      tag: tag,
+      tag: this.tag,
       line: msg,
       date: new Date(),
       level: LogLevel.INFO
     });
   }
 
-  debug(tag: string, msg?: string): void {
-    if (!msg) {
-      msg = tag;
-      tag = 'BrowserRuntime';
-    }
+  debug(msg: any): void {
     this.addLog({
-      tag: tag,
+      tag: this.tag,
       line: msg,
       date: new Date(),
       level: LogLevel.DEBUG
     });
   }
 
-  warn(tag: string, msg?: string): void {
-    if (!msg) {
-      msg = tag;
-      tag = 'BrowserRuntime';
-    }
+  warn(msg: any): void {
+    console.warn(msg);
     this.addLog({
-      tag: tag,
+      tag: this.tag,
       line: msg,
       date: new Date(),
       level: LogLevel.WARN
     });
   }
 
-  error(tag: string, msg?: string): void {
-    if (!msg) {
-      msg = tag;
-      tag = 'BrowserRuntime';
-    }
+  error(msg: any): void {
+    console.error(msg);
     this.addLog({
-      tag: tag,
+      tag: this.tag,
       line: msg,
       date: new Date(),
       level: LogLevel.ERROR
