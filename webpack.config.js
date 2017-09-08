@@ -342,9 +342,14 @@ module.exports = {
         ]
       },
       {
-        test: /\.(ts|js)$/,
+        test: /\.ts$/,
         loader: "@ngtools/webpack"
-      }
+      },
+      {
+        test: /\.js$/,
+        exclude: /@angular/,
+        loader: "@ngtools/webpack"
+      },
     ]
   },
   "plugins": [
