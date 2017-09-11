@@ -1,3 +1,10 @@
+app-nav-bar {
+  display: flex;
+  flex: 1;
+  min-height: 60px;
+  max-height: 60px;
+}
+
 .badge {
   vertical-align: top;
 }

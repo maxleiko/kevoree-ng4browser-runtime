@@ -16,6 +16,7 @@ import { KevoreeCoreService } from './services/core.service';
 import { TinyConfService } from './services/tiny-conf.service';
 import { KevScriptService } from './services/kevscript.service';
 import { ResolverService } from './services/resolver.service';
+import { InstallerService } from './services/installer.service';
 // app pages
 import { HomeComponent } from './pages/home/home.component';
 import { SettingsComponent } from './pages/settings/settings.component';
@@ -25,6 +26,7 @@ import { NavBarComponent } from './components/navbar/navbar.component';
 import { LoggerComponent } from './components/logger/logger.component';
 import { KevScriptComponent } from './components/kevscript/kevscript.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { TileComponent } from './components/tile/tile.component';
 // app pipes
 import { SafePipe } from './pipes/safe.pipe';
 
@@ -34,6 +36,7 @@ import { SafePipe } from './pipes/safe.pipe';
     NavBarComponent,
     KevScriptComponent,
     DashboardComponent,
+    TileComponent,
     LoggerComponent,
     HomeComponent,
     SettingsComponent,
@@ -51,6 +54,7 @@ import { SafePipe } from './pipes/safe.pipe';
     LoggerService,
     ResolverService,
     TinyConfService,
+    InstallerService,
     KevScriptService,
     KevoreeCoreService,
     LoggerFactoryService,

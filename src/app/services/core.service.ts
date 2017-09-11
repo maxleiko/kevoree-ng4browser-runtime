@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs/Rx';
 
+import kevoree from 'kevoree-library';
 import KevoreeCore from 'kevoree-core';
 
 import { LoggerService } from './logger.service';
@@ -29,7 +30,6 @@ export class KevoreeCoreService {
     this.core = new KevoreeCore(resolver, kevs.getInstance(), loggerFactory);
 
     this.core.on('stopped', () => {
-      console.log('!!!!!!!!!!!! sTOPPED !!!');
       this.state.next(State.STOPPED);
     });
 
@@ -71,6 +71,14 @@ export class KevoreeCoreService {
   }
 
   deploy(model: ContainerRoot): Promise<void> {
+    return this.core.deploy(model);
+  }
+
+  merge(model: ContainerRoot): Promise<void> {
+    const currentModel = this.core.getCurrentModel();
+    const factory = new kevoree.factory.DefaultKevoreeFactory();
+    const compare = factory.createModelCompare();
+    compare.merge(model, currentModel).applyOn(model);
     return this.core.deploy(model);
   }
 

@@ -1,8 +1,24 @@
 .btn-bar {
+  margin-bottom: 25px !important;
+}
+
+.home-container {
   /*
     this is for tiny resolutions (mobile)
     in order to still be able to see the buttons
     under the log panel
   */
-  margin-bottom: 70px !important;
+  margin-bottom: 80px !important;
+}
+
+label[for="load-du"] {
+  display: block;
+}
+
+.file-name {
+  padding: 0 8px;
+}
+
+.load-tdef-du button {
+  width: 150px;
 }

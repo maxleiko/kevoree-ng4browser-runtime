@@ -1,0 +1,54 @@
+.tile-container {
+  background-color: #fff;
+  display: inline-block;
+  margin: 0 5px;
+  width: 302px;
+  height: 327px;
+  border: 1px solid #999;
+}
+
+.tile-header {
+  padding: 0 5px;
+  height: 25px;
+  width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 25px;
+  border-bottom: 1px solid #999;
+  background-color: #333;
+  user-select: none;
+}
+
+.tile-header:hover {
+  cursor: grab;
+}
+
+.tile-header:active {
+  cursor: grabbing;
+}
+
+.tile-name {
+  font-size: 16px;
+  height: 25px;
+  line-height: 25px;
+}
+
+.tile-stopped {
+  z-index: 100;
+  display: flex;
+  position: absolute;
+  background-color: black;
+  opacity: 0.55;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 300px;
+  font-size: 2em;
+  color: white;
+}
+
+.tile {
+  border: none;
+  width: 300px;
+  height: 300px;
+}

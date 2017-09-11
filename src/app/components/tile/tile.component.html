@@ -1,0 +1,13 @@
+<div class="tile-container">
+  <div class="tile-header">
+    <span class="tile-name">{{ name }}: {{ type }}</span>
+  </div>
+  <div class="tile-stopped" *ngIf="!started">
+    <span>STOPPED</span>
+  </div>
+  <iframe
+    id="tile-{{ name }}"
+    [src]="src | safe"
+    class="tile">
+  </iframe>
+</div>

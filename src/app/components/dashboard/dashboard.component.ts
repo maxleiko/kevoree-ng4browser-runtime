@@ -2,14 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { KevoreeCoreService, State } from '../../services/core.service';
+import { Tile } from '../tile/tile.component';
 
-export interface Tile {
-  path: string;
-  name: string;
-  type: string;
-  src: string;
-  started: boolean;
-}
 
 @Component({
   selector: 'app-dashboard',

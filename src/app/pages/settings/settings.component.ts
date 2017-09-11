@@ -5,16 +5,17 @@ import { TinyConfService } from '../../services/tiny-conf.service';
 
 @Component({
   templateUrl: './settings.component.html',
-  providers: [ LocalStorageService ]
+  styleUrls: ['./settings.component.css'],
+  providers: [LocalStorageService]
 })
 export class SettingsComponent {
-  @LocalStorage('registry', 'https://new-registry.kevoree.org')
+  @LocalStorage('registry', 'https://registry.kevoree.org')
   registry: string;
 
   registryTimeout;
 
   constructor(private logger: LoggerService, private config: TinyConfService,
-              private storage: LocalStorageService) {
+    private storage: LocalStorageService) {
     this.updateRegistry(storage.retrieve('registry'));
   }
 

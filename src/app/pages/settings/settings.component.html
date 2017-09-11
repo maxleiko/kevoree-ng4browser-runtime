@@ -3,15 +3,14 @@
     <div class="form-group">
       <label for="registry">Registry</label>
       <input
-        id="registry"
+        name="registry"
         type="text"
         class="form-control"
-        name="registry"
         [(ngModel)]="registry"
         (ngModelChange)="updateRegistry($event)"
         placeholder="https://registry.kevoree.org"
         aria-describedby="registryHelp">
-      <p id="registryHelp" class="form-text text-muted">
+      <p class="form-text text-muted">
         Specify the URL of a Kevoree Registry (eg. https://registry.kevoree.org)
       </p>
     </div>

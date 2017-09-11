@@ -1,6 +1,6 @@
-<div class="container-fluid">
+<div class="container-fluid home-container">
   <div class="row justify-content-md-center">
-    <div class="col-12 col-md-7">
+    <div class="col-12 col-lg-7">
       <div class="form-group">
         <label for="name">Node name</label>
         <input
@@ -29,10 +29,64 @@
       <div class="container form-group btn-bar">
         <div class="row justify-content-between">
           <div>
-            <button type="button" class="btn btn-info" (click)="start()" [disabled]="core.state.getValue() !== 0 && core.state.getValue() !== 4">Start</button>
+            <button type="button" class="btn btn-success" (click)="start()" [disabled]="core.state.getValue() !== 0 && core.state.getValue() !== 4">Start</button>
             <button type="button" class="btn btn-info" (click)="submitScript()" [disabled]="!core.isBootstrapped()">Submit script</button>
           </div>
           <button type="button" class="btn btn-warning" (click)="stop()" [disabled]="core.state.getValue() !== 2">Stop</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col-12 col-lg-7" role="tablist">
+      <div class="card bg-inverse">
+        <div class="card-header bg-inverse" role="tab">
+          <h5 class="mb-0">
+            <a href="#/home" (click)="isCollapsed = !isCollapsed">
+              Load custom TypeDefinitions and DeployUnits
+              <i class="fa" [ngClass]="{'fa-chevron-right': isCollapsed, 'fa-chevron-down': !isCollapsed}"></i>
+            </a>
+          </h5>
+        </div>
+
+        <div class="collapse" role="tabpanel" [ngbCollapse]="isCollapsed">
+          <div class="card-block load-tdef-du">
+            <p>
+              This allows you to load Kevoree models (eg. kevlib.json) and JavaScript files (eg. your-deploy-unit.js) that are not yet available on a Kevoree registry and/or the npm registry.
+            </p>
+            <p class="text-muted">In order to use this feature, the runtime must be started.</p>
+            <div class="form-group">
+              <input
+                name="load-tdef"
+                type="file"
+                class="hide"
+                (change)="loadTypeDefinitionFile($event)">
+              <button class="btn btn-md btn-success" (click)="loadTypeDefinition()" [disabled]="(tdefFile && !tdefError) || !core.isBootstrapped()">Load .json</button>
+              <span class="file-name text-muted" *ngIf="tdefFile">
+                <span>{{ tdefFile }} </span>
+                <span *ngIf="!tdefError">{{ (isTdefLoaded ? ' loaded ✔' : ' loading...') }}</span>
+                <span class="text-danger" *ngIf="tdefError">error</span>
+              </span>
+            </div>
+            <div class="form-group">
+              <input
+                name="load-du"
+                type="file"
+                class="hide"
+                (change)="loadDeployUnitFile($event)">
+              <button class="btn btn-md btn-info" (click)="loadDeployUnit()" [disabled]="(duFile && !duError) || !core.isBootstrapped()">Load .js</button>
+              <span class="file-name text-muted" *ngIf="duFile">
+                <span>{{ duFile }} </span>
+                <span *ngIf="!duError">{{ (isDuLoaded ? ' loaded ✔' : ' loading...') }}</span>
+                <span class="text-danger" *ngIf="duError">error</span>
+              </span>
+            </div>
+            <div class="form-group" *ngIf="(tdefFile && !tdefError) && (duFile && !duError)">
+              You can now use: <code>{{ tdef.eContainer().name + '.' + tdef.name + '/' + tdef.version + '/{ ' + du.findFiltersByID('platform').value + ': \'' + du.version + '\' }'}}</code>
+            </div>
+            <hr />
+            <button class="btn btn-sm" (click)="resetFields()">Reset fields</button>
+          </div>
         </div>
       </div>
     </div>

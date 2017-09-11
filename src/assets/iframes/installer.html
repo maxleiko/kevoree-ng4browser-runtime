@@ -27,16 +27,35 @@
       });
     };
 
-    function loadScript(du) {
+    function loadScript(params) {
       return new Promise(function (resolve, reject) {
         const script = document.createElement('script');
-        script.setAttribute('src', `https://unpkg.com/${du.name}@${du.version}/browser/${du.name}.js`);
+        script.type = 'text/javascript';
+        script.setAttribute('src', `https://unpkg.com/${params.name}@${params.version}/browser/${params.name}.js`);
         script.async = true;
         script.onload = function () {
-          console.log(`DeployUnit ${du.name}@${du.version} resolved successfully`);
+          console.log(`DeployUnit ${params.name}@${params.version} resolved successfully`);
           resolve();
         };
         document.body.appendChild(script);
+      });
+    }
+
+    function loadFromSource(params) {
+      return new Promise(function (resolve) {
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.text = parent[params.id];
+        script.async = true;
+        script.defer = true;
+        script.onerror = function () {
+          console.log(`DeployUnit ${params.name}@${params.version} failed to install from source ${params.id}`);
+          reject(new Error());
+        };
+        document.body.appendChild(script);
+        resolve();
+      }).then(() => {
+        console.log(`DeployUnit ${params.name}@${params.version} installed successfully from source ${params.id}`);
       });
     }
 
@@ -48,12 +67,20 @@
         return params;
       }, {});
 
-    console.log(`Resolving https://unpkg.com/${params.name}@${params.version}/browser/${params.name}.js`);
-
     window.KevoreeLibrary = parent.KevoreeLibrary;
     window.KevoreeModuleLoader = parent.KevoreeModuleLoader;
 
-    loadScript(params).then(notifyMain);
+    let installPromise;
+
+    if (params.id) {
+      console.log(`Installing ${params.name}@${params.version} from sources ${params.id}...`);
+      installPromise = loadFromSource(params);
+    } else {
+      console.log(`Resolving https://unpkg.com/${params.name}@${params.version}/browser/${params.name}.js`);
+      installPromise = loadScript(params);
+    }
+
+    installPromise.then(notifyMain);
     </script>
   </body>
 </html>

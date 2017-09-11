@@ -1,16 +1,11 @@
 <div class="dashboard" [ngClass]="{'empty': tiles.length === 0 }">
   <p *ngIf="tiles.length === 0">No tile</p>
-  <div *ngFor="let tile of tiles" class="tile-container">
-    <div class="tile-header">
-      <span class="tile-name">{{ tile.name }}: {{ tile.type }}</span>
-    </div>
-    <div class="tile-stopped" *ngIf="!tile.started">
-      <span>STOPPED</span>
-    </div>
-    <iframe
-      id="tile-{{ tile.name }}"
-      [src]="tile.src | safe"
-      class="tile">
-    </iframe>
-  </div>
+  <app-tile
+    *ngFor="let tile of tiles"
+    [path]="tile.path"
+    [type]="tile.type"
+    [name]="tile.name"
+    [src]="tile.src"
+    [started]="tile.started">
+  </app-tile>
 </div>

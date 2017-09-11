@@ -16,3 +16,8 @@ interface DeployUnit {
   hashcode: string;
   filters: { array: any[] };
 }
+interface TypeDefinition {
+  name: string;
+  version: number;
+  deployUnits: { array: Array<DeployUnit> };
+}
