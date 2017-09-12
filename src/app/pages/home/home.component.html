@@ -19,6 +19,8 @@
           id="script"
           [script]="script"
           (scriptChanged)="script=$event"
+          (onLintStart)="onLintStart()"
+          (onLintDone)="onLintDone()"
           aria-describedby="bootstrapScriptHelp">
         </app-kevscript>
         <p id="bootstrapScriptHelp" class="form-text text-muted">
@@ -29,8 +31,8 @@
       <div class="container form-group btn-bar">
         <div class="row justify-content-between">
           <div>
-            <button type="button" class="btn btn-success" (click)="start()" [disabled]="core.state.getValue() !== 0 && core.state.getValue() !== 4">Start</button>
-            <button type="button" class="btn btn-info" (click)="submitScript()" [disabled]="!core.isBootstrapped()">Submit script</button>
+            <button type="button" class="btn btn-success" (click)="start()" [disabled]="linting || (core.state.getValue() !== 0 && core.state.getValue() !== 4)">Start</button>
+            <button type="button" class="btn btn-info" (click)="submitScript()" [disabled]="linting || !core.isBootstrapped()">Submit script</button>
           </div>
           <button type="button" class="btn btn-warning" (click)="stop()" [disabled]="core.state.getValue() !== 2">Stop</button>
         </div>

@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgGridModule } from 'angular2-grid';
 
 import { Ng2Webstorage, LocalStorageService } from 'ngx-webstorage';
 // import { CodemirrorModule } from 'ng2-codemirror';
@@ -48,6 +49,7 @@ import { SafePipe } from './pipes/safe.pipe';
     routing,
     FormsModule,
     NgbModule.forRoot(),
+    NgGridModule,
     Ng2Webstorage,
   ],
   providers: [

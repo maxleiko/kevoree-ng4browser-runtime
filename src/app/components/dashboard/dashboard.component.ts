@@ -1,18 +1,28 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgGridConfig } from 'angular2-grid';
 
 import { KevoreeCoreService, State } from '../../services/core.service';
-import { Tile } from '../tile/tile.component';
 
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: [ './dashboard.component.css' ]
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-
-  tiles: Tile[] = [];
+  gridConfig: NgGridConfig = {
+    cascade: 'left',
+    max_cols: 6,
+    margins: [7],
+    resizable: true,
+    col_width: 300,
+    row_height: 327,
+    min_width: 300,
+    min_height: 327,
+  };
+  tiles = [];
+  isDraggingOrResizing = false;
 
   constructor(private core: KevoreeCoreService, private router: Router) {
     if (this.core.state.getValue() === State.STARTED) {
@@ -27,12 +37,32 @@ export class DashboardComponent {
                 name: components[path].getName(),
                 type: elem.typeDefinition.name + '/' + elem.typeDefinition.version,
                 src: '/assets/iframes/tile.html?path=' + encodeURI(path),
-                started: components[path].started
+                started: components[path].started,
+                config: {
+                  dragHandle: '.tile-header',
+                  fixed: true
+                }
               });
             }
           }
         });
       });
     }
+  }
+
+  onDragStart(event) {
+    this.isDraggingOrResizing = true;
+  }
+
+  onDragStop(event) {
+    this.isDraggingOrResizing = false;
+  }
+
+  onResizeStart(event) {
+    this.isDraggingOrResizing = true;
+  }
+
+  onResizeStop(event) {
+    this.isDraggingOrResizing = false;
   }
 }

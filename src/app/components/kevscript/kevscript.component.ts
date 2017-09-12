@@ -29,6 +29,11 @@ export class KevScriptComponent implements AfterViewInit {
   @Output()
   scriptChanged: EventEmitter<string> = new EventEmitter<string>();
 
+  @Output()
+  onLintStart: EventEmitter<void> = new EventEmitter<void>();
+  @Output()
+  onLintDone: EventEmitter<void> = new EventEmitter<void>();
+
   constructor(private renderer: Renderer, private kevs: KevScriptService,
               private core: KevoreeCoreService) {
     this.factory = new kevoree.factory.DefaultKevoreeFactory();
@@ -67,6 +72,14 @@ export class KevScriptComponent implements AfterViewInit {
     this.editor.on('changes', (cm) => {
       this._script = cm.getValue();
       this.scriptChanged.emit(this._script);
+    });
+
+    this.editor.on('lintStart', () => {
+      this.onLintStart.emit();
+    });
+
+    this.editor.on('lintDone', () => {
+      this.onLintDone.emit();
     });
   }
 

@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Kevoree Component Tile</title>
-  </head>
-  <body>
-    <div id="tile"></div>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-dom.min.js"></script>
-    <script type="text/javascript">
+
+<head>
+  <meta charset="utf-8">
+  <title>Kevoree Component Tile</title>
+  <style>
+  body { font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; background-color: #fff; }
+  html, body, p { margin: 0; padding: 0; }
+  html, body, #tile { display: flex; flex: 1; width: 100%; height: 100%; }
+  #tile > * { display: block; width: 100%; }
+  #tile .error { padding: 5px; background-color: #f2dede; border-color: #ebcccc; color: #a94442; }
+  #tile .error h3 { margin: 5px; }
+  </style>
+</head>
+
+<body>
+  <div id="tile">Loading...</div>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-dom.min.js"></script>
+  <script type="text/javascript">
     const params = decodeURI(window.location.search.substr(1))
       .split('&')
       .reduce((params, value) => {
@@ -18,13 +28,24 @@
       }, {});
 
     console.log(`Creating tile for instance: ${params.path}`);
+    try {
+      const instance = parent.KevoreeInstanceLoader.require(params.path);
+      const ui = ReactDOM.render(
+        React.createElement(instance.uiFactory(), { instance: instance }),
+        document.getElementById('tile')
+      );
+      instance.ui = ui;
+    } catch (err) {
+      console.error(err);
+      const lines = err.stack.split('\n');
+      const title = lines.splice(0, 1);
+      const stack = lines.join('\n');
+      const errorEl = React.createElement('div', { className: 'error' },
+        React.createElement('h3', null, title),
+        React.createElement('pre', null, React.createElement('code', null, stack)));
+      ReactDOM.render(errorEl, document.getElementById('tile'));
+    }
+  </script>
+</body>
 
-    const instance = parent.KevoreeInstanceLoader.require(params.path);
-    const ui = ReactDOM.render(
-      React.createElement(instance.uiFactory(), { instance: instance }),
-      document.getElementById('tile')
-    );
-    instance.ui = ui;
-    </script>
-  </body>
 </html>

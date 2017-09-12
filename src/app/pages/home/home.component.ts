@@ -16,15 +16,16 @@ const SUBMIT_SCRIPT = '// you can now submit script to make changes @runtime :)\
 export class HomeComponent {
   name: string;
   script: string;
-  isCollapsed = true;
-  tdefFile: string;
-  isTdefLoaded = false;
   duFile: string;
-  isDuLoaded = false;
-  tdef: TypeDefinition;
-  du: DeployUnit;
-  tdefError = false;
+  tdefFile: string;
+  linting = true;
   duError = false;
+  tdefError = false;
+  isDuLoaded = false;
+  isCollapsed = true;
+  isTdefLoaded = false;
+  du: DeployUnit;
+  tdef: TypeDefinition;
 
   constructor(public core: KevoreeCoreService, private logger: LoggerService,
     private kevs: KevScriptService, private installer: InstallerService) {
@@ -72,6 +73,14 @@ bind ${this.name}.printer.input chan`;
     if (this.core.isBootstrapped()) {
       this.core.submitScript(this.script);
     }
+  }
+
+  onLintStart() {
+    this.linting = true;
+  }
+
+  onLintDone() {
+    this.linting = false;
   }
 
   loadTypeDefinition() {

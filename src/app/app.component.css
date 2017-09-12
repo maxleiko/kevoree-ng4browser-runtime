@@ -2,7 +2,6 @@
   display: flex;
   flex: 1;
   flex-flow: column;
-  margin-top: 15px;
 }
 
 .main-container > * {

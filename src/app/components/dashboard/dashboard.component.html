@@ -1,11 +1,22 @@
-<div class="dashboard" [ngClass]="{'empty': tiles.length === 0 }">
-  <p *ngIf="tiles.length === 0">No tile</p>
-  <app-tile
-    *ngFor="let tile of tiles"
-    [path]="tile.path"
-    [type]="tile.type"
-    [name]="tile.name"
-    [src]="tile.src"
-    [started]="tile.started">
-  </app-tile>
+<div
+  class="dashboard"
+  [ngGrid]="gridConfig"
+  [ngClass]="{'draggingOrResizing': isDraggingOrResizing, 'empty': tiles.length === 0 }">
+    <p *ngIf="tiles.length === 0">No tile</p>
+    <div
+      *ngFor="let tile of tiles"
+      [(ngGridItem)]="tile.config"
+      (onDragStart)="onDragStart($event)"
+      (onDragStop)="onDragStop($event)"
+      (onResizeStart)="onResizeStart($event)"
+      (onResizeStop)="onResizeStop($event)">
+        <div class="tile-overlay"></div>
+        <app-tile
+          [path]="tile.path"
+          [type]="tile.type"
+          [name]="tile.name"
+          [src]="tile.src"
+          [started]="tile.started">
+        </app-tile>
+    </div>
 </div>

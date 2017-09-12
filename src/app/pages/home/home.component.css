@@ -1,14 +1,15 @@
-.btn-bar {
-  margin-bottom: 25px !important;
-}
-
 .home-container {
+  margin-top: 15px;
   /*
     this is for tiny resolutions (mobile)
     in order to still be able to see the buttons
     under the log panel
   */
   margin-bottom: 80px !important;
+}
+
+.btn-bar {
+  margin-bottom: 25px !important;
 }
 
 label[for="load-du"] {
