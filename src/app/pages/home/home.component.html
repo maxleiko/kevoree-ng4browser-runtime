@@ -76,7 +76,7 @@
                 type="file"
                 class="hide"
                 (change)="loadDeployUnitFile($event)">
-              <button class="btn btn-md btn-info" (click)="loadDeployUnit()" [disabled]="(duFile && !duError) || !core.isBootstrapped()">Load .js</button>
+              <button class="btn btn-md btn-info" (click)="loadDeployUnit()" [disabled]="(!tdefFile || tdefError) || ((duFile && !duError) || !core.isBootstrapped())">Load .js</button>
               <span class="file-name text-muted" *ngIf="duFile">
                 <span>{{ duFile }} </span>
                 <span *ngIf="!duError">{{ (isDuLoaded ? ' loaded ✔' : ' loading...') }}</span>
