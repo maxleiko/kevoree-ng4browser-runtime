@@ -13,13 +13,14 @@ import { KevoreeCoreService, State } from '../../services/core.service';
 export class DashboardComponent {
   gridConfig: NgGridConfig = {
     cascade: 'left',
-    max_cols: 6,
-    margins: [7],
+    max_cols: 9,
+    margins: [5],
     resizable: true,
-    col_width: 300,
-    row_height: 327,
-    min_width: 300,
-    min_height: 327,
+    auto_resize: true,
+    col_width: 200,
+    row_height: 175,
+    min_width: 200,
+    min_height: 175,
   };
   tiles = [];
   isDraggingOrResizing = false;
@@ -27,42 +28,44 @@ export class DashboardComponent {
   constructor(private core: KevoreeCoreService, private router: Router) {
     if (this.core.state.getValue() === State.STARTED) {
       this.core.onDeploy.subscribe((components) => {
-        Object.keys(components).forEach((path) => {
-          const tile = this.tiles.find(t => t.path === path);
-          if (!tile) {
-            const elem = components[path].getModelEntity();
-            if (elem) {
-              this.tiles.push({
-                path,
-                name: components[path].getName(),
-                type: elem.typeDefinition.name + '/' + elem.typeDefinition.version,
-                src: '/assets/iframes/tile.html?path=' + encodeURI(path),
-                started: components[path].started,
-                config: {
-                  dragHandle: '.tile-header',
-                  fixed: true
-                }
-              });
-            }
+        // compare components with current tiles
+        this.tiles.forEach((tile, i) => {
+          const keep = Object.keys(components).find((path) => tile.path === path);
+          if (!keep) {
+            this.tiles.splice(i, 1);
           }
         });
+
+        // only create tile for new instances
+        Object.keys(components)
+          .map((path) => components[path])
+          .filter((instance) => {
+            const found = this.tiles.find((tile) => instance.path === tile.path);
+            return !found;
+          })
+          .forEach((instance) => {
+            const comp = instance.getModelEntity();
+            this.tiles.push({
+              path: instance.path,
+              name: instance.name,
+              type: comp.typeDefinition.name + '/' + comp.typeDefinition.version,
+              src: '/assets/iframes/tile.html?path=' + encodeURI(instance.path),
+              started: instance.started,
+              config: {
+                dragHandle: '.tile-name',
+                fixed: true
+              }
+            });
+          });
       });
     }
   }
 
-  onDragStart(event) {
+  onDragOrResizeStart(event) {
     this.isDraggingOrResizing = true;
   }
 
-  onDragStop(event) {
-    this.isDraggingOrResizing = false;
-  }
-
-  onResizeStart(event) {
-    this.isDraggingOrResizing = true;
-  }
-
-  onResizeStop(event) {
+  onDragOrResizeStop(event) {
     this.isDraggingOrResizing = false;
   }
 }

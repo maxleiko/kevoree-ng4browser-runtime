@@ -86,6 +86,18 @@ export class KevoreeCoreService {
     return this.core.submitScript(script);
   }
 
+  startComponent(name: string): Promise<void> {
+    return this.submitScript(`start ${this.getNodeName()}.${name}`);
+  }
+
+  stopComponent(name: string): Promise<void> {
+    return this.submitScript(`stop ${this.getNodeName()}.${name}`);
+  }
+
+  removeComponent(name: string): Promise<void> {
+    return this.submitScript(`remove ${this.getNodeName()}.${name}`);
+  }
+
   stop(): Promise<void> {
     this.state.next(State.STOPPING);
     this.logger.debug('Stopping Kevoree core...');

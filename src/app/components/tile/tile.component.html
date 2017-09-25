@@ -1,6 +1,11 @@
 <div class="tile-container">
   <div class="tile-header">
     <span class="tile-name">{{ name }}: {{ type }}</span>
+    <div class="tile-actions">
+      <span (click)="start()" *ngIf="!started"><i class="fa fa-fw fa-play-circle"></i></span>
+      <span (click)="stop()" *ngIf="started"><i class="fa fa-fw fa-stop-circle"></i></span>
+      <span (click)="remove(content)"><i class="fa fa-fw fa-window-close"></i></span>
+    </div>
   </div>
   <div class="tile-stopped" *ngIf="!started">
     <span>STOPPED</span>
@@ -8,6 +13,22 @@
   <iframe
     id="tile-{{ name }}"
     [src]="src | safe"
-    class="tile">
+    class="tile-content">
   </iframe>
 </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Remove a component</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('dismiss')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure that you want to remove <strong>{{ name }}: {{ type }}</strong>?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger btn-outline-light" (click)="c('remove')">Remove</button>
+    <button type="button" class="btn btn-outline-light" (click)="c('cancel')">Cancel</button>
+  </div>
+</ng-template>

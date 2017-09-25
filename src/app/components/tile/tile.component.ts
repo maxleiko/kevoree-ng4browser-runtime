@@ -1,4 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { KevoreeCoreService } from '../../services/core.service';
 
 export interface Tile {
   path: string;
@@ -28,4 +31,29 @@ export class TileComponent implements Tile {
 
   @Input()
   started: boolean;
+
+  constructor(private core: KevoreeCoreService, private modalService: NgbModal) { }
+
+  start() {
+    return this.core.startComponent(this.name)
+      .then(() => {
+        this.started = true;
+      });
+  }
+
+  stop() {
+    return this.core.stopComponent(this.name)
+      .then(() => {
+        this.started = false;
+      });
+  }
+
+  remove(content) {
+    this.modalService.open(content).result
+      .then((result) => {
+        if (result === 'remove') {
+          return this.core.removeComponent(this.name);
+        }
+      });
+  }
 }

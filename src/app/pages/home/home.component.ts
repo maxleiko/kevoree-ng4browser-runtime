@@ -35,11 +35,11 @@ export class HomeComponent {
     } else {
       this.name = 'node' + (Math.floor(Math.random() * 1000) + 1);
       this.script = `add ${this.name}: JavascriptNode
-add ${this.name}.ticker: Ticker
+add ${this.name}.sender: MsgSender
 add ${this.name}.printer: ConsolePrinter
 add chan: LocalChannel
 
-bind ${this.name}.ticker.tick chan
+bind ${this.name}.sender.send chan
 bind ${this.name}.printer.input chan`;
     }
   }
